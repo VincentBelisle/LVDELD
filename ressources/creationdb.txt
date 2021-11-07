@@ -6,7 +6,7 @@ CREATE TABLE `hero` (
 CREATE TABLE `chapitre` (
   `id_chapitre` int PRIMARY KEY,
   `livre_id` int,
-  `numere_chapitre` int,
+  `numero_chapitre` int,
   `nom_chapitre` varchar(50)
 );
 
@@ -14,8 +14,8 @@ CREATE TABLE `page` (
   `id_page` int PRIMARY KEY,
   `livre_id` int,
   `numero_page` int,
-  `chapitre_id` id,
-  `texte` varchar(255)
+  `chapitre_id` int,
+  `texte` varchar(32765)
 );
 
 CREATE TABLE `livre` (

@@ -1,7 +1,15 @@
+/*
+* Fichier: creationdb.sql
+* Auteurs: Félix Michaud, Vincent Bélisle, Maxime Boucher
+* Date: 08 novembre 2021,
+* Description: Création de la base de données LDVELH et de son user.
+*/
+
 CREATE DATABASE LDVELH;
 
 USE LDVELH;
 
+# Création des tables de la bd.
 
 CREATE TABLE `hero` (
   `id_hero` int PRIMARY KEY,
@@ -35,4 +43,10 @@ ALTER TABLE `chapitre` ADD FOREIGN KEY (`livre_id`) REFERENCES `livre` (`id_livr
 ALTER TABLE `hero` ADD FOREIGN KEY (`id_hero`) REFERENCES `livre` (`id_livre`);
 
 ALTER TABLE `fiche_personnage` ADD FOREIGN KEY (`hero_id`) REFERENCES `hero` (`id_hero`);
+
+
+# Création de l'usager pour la bd.
+
+CREATE USER 'hero'@'localhost' IDENTIFIED BY 'hero';
+GRANT SELECT, UPDATE ON lvdelh.* TO 'hero'@'localhost';
 

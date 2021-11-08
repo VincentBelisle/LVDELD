@@ -1,17 +1,26 @@
-CREATE DATABASE LVDELH;
+CREATE DATABASE LDVELH;
 
-USE LVDELH;
+USE LDVELH;
+
 
 CREATE TABLE `hero` (
   `id_hero` int PRIMARY KEY,
-  `chapitre_id` int
+  `vie` int,
+  `endurance` int,
+  `equipement` varchar(255)
+);
+
+CREATE TABLE `fiche_personnage` (
+  `hero_id` int,
+  `vie` int,
+  `endurance` int,
+  `equipement` varchar(255)
 );
 
 CREATE TABLE `chapitre` (
   `id_chapitre` int PRIMARY KEY,
   `livre_id` int,
-  `numero_chapitre` int,
-  `texte` text
+  `numero_chapitre` int
 );
 
 CREATE TABLE `livre` (
@@ -23,6 +32,7 @@ CREATE TABLE `livre` (
 
 ALTER TABLE `chapitre` ADD FOREIGN KEY (`livre_id`) REFERENCES `livre` (`id_livre`);
 
-ALTER TABLE `hero` ADD FOREIGN KEY (`chapitre_id`) REFERENCES `chapitre` (`id_chapitre`);
+ALTER TABLE `hero` ADD FOREIGN KEY (`id_hero`) REFERENCES `livre` (`id_livre`);
 
+ALTER TABLE `fiche_personnage` ADD FOREIGN KEY (`hero_id`) REFERENCES `hero` (`id_hero`);
 

@@ -46,7 +46,6 @@ ALTER TABLE `fiche_personnage` ADD FOREIGN KEY (`hero_id`) REFERENCES `hero` (`i
 
 
 # Création de l'usager pour la bd.
-
 CREATE USER 'hero'@'localhost' IDENTIFIED BY 'hero';
-GRANT SELECT, UPDATE ON lvdelh.* TO 'hero'@'localhost';
+GRANT SELECT, UPDATE, INSERT ON lvdelh.* TO 'hero'@'localhost';
 

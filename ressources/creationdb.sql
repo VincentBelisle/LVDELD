@@ -5,6 +5,8 @@
 * Description: Création de la base de données LDVELH et de son user.
 */
 
+DROP DATABASE LDVELH;
+
 CREATE DATABASE LDVELH;
 
 USE LDVELH;
@@ -26,9 +28,10 @@ CREATE TABLE `fiche_personnage` (
 );
 
 CREATE TABLE `chapitre` (
-  `id_chapitre` int PRIMARY KEY,
-  `livre_id` int,
-  `numero_chapitre` int
+  `id_chapitre` int PRIMARY KEY AUTO_INCREMENT,
+  `numero_chapitre` int,
+  `texte` text
+  
 );
 
 CREATE TABLE `livre` (
@@ -38,7 +41,6 @@ CREATE TABLE `livre` (
   `nom_auteur` varchar(255)
 );
 
-ALTER TABLE `chapitre` ADD FOREIGN KEY (`livre_id`) REFERENCES `livre` (`id_livre`);
 
 ALTER TABLE `hero` ADD FOREIGN KEY (`id_hero`) REFERENCES `livre` (`id_livre`);
 
@@ -47,5 +49,5 @@ ALTER TABLE `fiche_personnage` ADD FOREIGN KEY (`hero_id`) REFERENCES `hero` (`i
 
 # Création de l'usager pour la bd.
 CREATE USER 'hero'@'localhost' IDENTIFIED BY 'hero';
-GRANT SELECT, UPDATE, INSERT ON lvdelh.* TO 'hero'@'localhost';
+GRANT SELECT, UPDATE, INSERT ON ldvelh.* TO 'hero'@'localhost';
 

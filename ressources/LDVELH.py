@@ -1,58 +1,70 @@
-import mysql.connector
 import sys
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+import mysql.connector
 
 mydb = mysql.connector.connect(
     host="localhost",
-    user="root",    
-    password="mysql",
+    user="hero",    
+    password="hero",
     database="ldvelh")
 
+
 class MainWindow(QMainWindow):
-
-
     def __init__(self):
-        QMainWindow.__init__(self)
+        super(MainWindow, self).__init__()
+        self.setWindowTitle("Login")
+        button = QPushButton("Connection")
+        self.setFixedSize(QSize(400, 200))
+        button.setCheckable(True)
+        self.inputName = QLineEdit()
+        self.inputPass = QLineEdit()
+        self.labelNom = QLabel('Login :')
+        self.labelNom.setFixedSize(QSize(400,25))
+        self.inputPass.setFixedSize(QSize(400,25))
+        self.login = QLineEdit()
+        self.login.setFixedSize(QSize(377,25))
+        self.labelpassword = QLabel('Password :')
+        self.password = QLineEdit()
+        self.login.setFixedSize(QSize(400,25))
+        
 
-        self.setMinimumSize(QSize(600, 300))    
-        self.setWindowTitle("PyQt") 
 
-        self.nom = QLabel(self)
-        self.nom.setText('Name:')
-        self.line = QLineEdit(self)
 
-        self.line.move(80, 20)
-        self.line.resize(200, 32)
-        self.nom.move(20, 20)
 
-        pybutton = QPushButton('OK', self)
-        pybutton.clicked.connect(self.clickMethod)
-        pybutton.resize(200,32)
-        pybutton.move(80, 60)        
 
-        self.citoyen = QLabel(self)
-        self.citoyen.setText('Information Citoyen:       ')
-        self.ligne = QLabel(self)
-        self.ligne.setText(self.line.text())
+        layout = QVBoxLayout()
+        layout.addWidget(self.labelNom)
+        layout.addWidget(self.login)
+        layout.addWidget(self.labelpassword)
+        layout.addWidget(self.password)
+        layout.addWidget(button)
 
-        self.ligne.move(180, 160)
-        self.ligne.resize(150, 32)
-        self.citoyen.move(10, 160)
+        
+
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
+
+
+app = QApplication(sys.argv)
+window = MainWindow()
+window.show()
+app.exec()
         
         
        
         
-    def clickMethod(self):
-        mycursor = mydb.cursor()
-        sql = "SELECT texte FROM chapitre WHERE numero_chapitre = %s"
+def clickMethod(self):
+    mycursor = mydb.cursor()
+    sql = "SELECT texte FROM chapitre WHERE numero_chapitre = %s"
 
-        mycursor.execute(sql,(self.line.text(),))
+    mycursor.execute(sql,(self.line.text(),))
 
-        myresult = mycursor.fetchall()
-        for (texte) in myresult:
-            self.ligne.setText('{}'.format(texte))
+    myresult = mycursor.fetchall()
+    for (texte) in myresult:
+        self.ligne.setText('{}'.format(texte))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

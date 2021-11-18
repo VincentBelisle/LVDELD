@@ -5,8 +5,6 @@
 * Description: Création de la base de données LDVELH et de son user.
 */
 
-DROP DATABASE LDVELH;
-
 CREATE DATABASE LDVELH;
 
 USE LDVELH;

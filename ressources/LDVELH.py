@@ -16,7 +16,7 @@ class Livre(QMainWindow):
         super().__init__()
         self.setWindowTitle("Livre")
         self.setFixedSize(QSize(1000, 1000))
-        self.text = QTextLine()
+        self.text = QTextEdit()
 
         layout = QVBoxLayout()
         layout.addWidget(self.text)

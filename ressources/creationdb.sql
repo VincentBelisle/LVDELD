@@ -49,3 +49,21 @@ ALTER TABLE `fiche_personnage` ADD FOREIGN KEY (`hero_id`) REFERENCES `hero` (`i
 CREATE USER 'hero'@'localhost' IDENTIFIED BY 'hero';
 GRANT SELECT, UPDATE, INSERT ON ldvelh.* TO 'hero'@'localhost';
 
+DELIMITER $$
+CREATE FUNCTION dee() RETURNS INT NO SQL
+BEGIN
+	DECLARE dee_aleatoire INT; 
+	SET dee_aleatoire = FLOOR(RAND()*(7-1)+1);
+	RETURN dee_aleatoire;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+CREATE FUNCTION calcul_vie(perte_vie INT, id_hero INT) RETURNS INT READS SQL DATA DETERMINISTIC
+BEGIN
+DECLARE vie_personnage INT; 
+SET vie_personnage = (SELECT vie FROM hero WHERE id_hero = id_hero);
+
+RETURN vie_personnage = perte_vie; 
+END $$
+DELIMITER ; 

@@ -11,31 +11,39 @@ mydb = mysql.connector.connect(
     database="ldvelh")
 
 
+class Livre(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Livre")
+        self.setFixedSize(QSize(1000, 1000))
+        self.text = QTextLine()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.text)
+
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
-        super(MainWindow, self).__init__()
+        super().__init__()
+        self.Livre = Livre()
         self.setWindowTitle("Login")
-        button = QPushButton("Connection")
         self.setFixedSize(QSize(400, 200))
+        button = QPushButton("Connection")
+        button.clicked.connect(self.Clicked)
         button.setCheckable(True)
-        self.inputName = QLineEdit()
-        self.inputPass = QLineEdit()
-        self.labelNom = QLabel('Login :')
-        self.labelNom.setFixedSize(QSize(400,25))
-        self.inputPass.setFixedSize(QSize(400,25))
+        self.labellogin = QLabel('Login :')
         self.login = QLineEdit()
-        self.login.setFixedSize(QSize(377,25))
         self.labelpassword = QLabel('Password :')
         self.password = QLineEdit()
-        self.login.setFixedSize(QSize(400,25))
         
 
 
-
-
-
         layout = QVBoxLayout()
-        layout.addWidget(self.labelNom)
+        layout.addWidget(self.labellogin)
         layout.addWidget(self.login)
         layout.addWidget(self.labelpassword)
         layout.addWidget(self.password)
@@ -48,26 +56,19 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(container)
 
 
+    def Clicked(self, checked):
+        if self.login.text() == "hero" and self.password.text() == "hero":
+            if self.isVisible():
+                self.hide()
+                self.Livre.show()
+        else:
+            self.login.setText("")
+            self.password.setText("")
+
+
+
+
 app = QApplication(sys.argv)
 window = MainWindow()
 window.show()
 app.exec()
-        
-        
-       
-        
-def clickMethod(self):
-    mycursor = mydb.cursor()
-    sql = "SELECT texte FROM chapitre WHERE numero_chapitre = %s"
-
-    mycursor.execute(sql,(self.line.text(),))
-
-    myresult = mycursor.fetchall()
-    for (texte) in myresult:
-        self.ligne.setText('{}'.format(texte))
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    mainWin = MainWindow()
-    mainWin.show()
-    sys.exit( app.exec_() )

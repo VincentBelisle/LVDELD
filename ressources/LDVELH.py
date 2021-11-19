@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import mysql.connector
 
+
 mydb = mysql.connector.connect(
     host="localhost",
     user="hero",    
@@ -15,14 +16,32 @@ class Livre(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Livre")
-        self.setFixedSize(QSize(1000, 1000))
+        self.setFixedSize(QSize(1900, 1000))
         self.text = QTextEdit()
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.text)
+        self.division = QLabel("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
+        self.bouttonrecherche = QPushButton("Aller au chapitre")
+        self.recherche = QLineEdit()
+
+        self.sac = QLineEdit()
+
+        layoutgauche = QVBoxLayout()
+        layoutdroit = QVBoxLayout()
+        layoutHori = QHBoxLayout()
+
+        layoutgauche.addWidget(self.text)
+        layoutgauche.addWidget(self.division)
+        layoutgauche.addWidget(self.recherche)
+        layoutgauche.addWidget(self.bouttonrecherche)
+
+        layoutdroit.addWidget(self.sac)
+
+
+        layoutHori.addLayout(layoutgauche)
+        layoutHori.addLayout(layoutdroit)
 
         container = QWidget()
-        container.setLayout(layout)
+        container.setLayout(layoutHori)
         self.setCentralWidget(container)
 
 

@@ -1,0 +1,7 @@
+problème eu avec GIT, on a perdu beaucoup de dossier et avons du recommencer une partie du travail.
+
+J'ai mis en commentaire ce que les fonctions sont sensées faire et pourquoi certaines ne marchaient pas
+
+
+
+https://dbdiagram.io/d/617fdea2d5d522682df323c0

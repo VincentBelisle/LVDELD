@@ -88,7 +88,7 @@ INSERT INTO hero (nom) VALUES("Michel");
 
 # Création de l'usager pour la bd.
 #CREATE USER 'hero'@'localhost' IDENTIFIED BY 'hero';
-GRANT SELECT, UPDATE, INSERT ON ldvelh.* TO 'hero'@'localhost';
+GRANT SELECT, UPDATE, EXECUTE, INSERT ON ldvelh.* TO 'hero'@'localhost';
 
 DELIMITER $$
 CREATE FUNCTION dee() RETURNS INT NO SQL
@@ -100,15 +100,17 @@ END $$
 DELIMITER ; 
 
 DELIMITER $$
-CREATE FUNCTION calcul_vie(perte_vie INT, id_hero INT) RETURNS INT READS SQL DATA DETERMINISTIC
-BEGIN
-DECLARE vie_personnage INT; 
-SET vie_personnage = (SELECT vie FROM hero WHERE id_hero = id_hero);
-
-RETURN vie_personnage = perte_vie; 
-END $$
-DELIMITER ;
-
+CREATE FUNCTION page_lue(id_hero INT) RETURNS INT DETERMINISTIC
+BEGIN 
+	DECLARE page INT;  
+	DECLARE select_page INT;
+    
+	UPDATE hero SET hero.page_lue = hero.page_lue + 1; 
+    SET select_page = (SELECT page_lue FROM hero WHERE hero.id = id_hero);
+	SET page = select_page;
+	RETURN page;
+END$$
+DELIMITER ; 
 DELIMITER $$ 
 CREATE TRIGGER gestion_point_vie AFTER UPDATE ON hero FOR EACH ROW
 
@@ -133,7 +135,7 @@ DROP PROCEDURE IF EXISTS afficher_chapitre$$
 CREATE PROCEDURE afficher_chapitre(IN _numero_chapitre INT)
 BEGIN
 
-SELECT texte FROM chapitre WHERE numero_chapitre = _numero_chapitre;
+SELECT texte FROM chapitre WHERE chapitre.id = _numero_chapitre;
 
 END $$
 DELIMITER ;
@@ -143,7 +145,7 @@ DROP PROCEDURE IF EXISTS enregistrer_donnees$$
 CREATE PROCEDURE enregistrer_donnees(IN id_sac INT, IN objet_1 INT, IN objet_2 INT, IN objet_3 INT, IN objet_4 INT,
 			IN objet_5 INT,IN objet_6 INT,IN objet_7 INT,IN objet_8 INT, IN repas VARCHAR(255), IN argent INT, IN id_aventure INT,
             IN discipline_1 INT, IN discipline_2 INT, IN discipline_3 INT, IN discipline_4 INT, IN discipline_5 INT,
-            IN arme INT,IN id_personnage INT, IN endurance INT, IN vie INT) 
+            IN arme INT,IN id_personnage INT, IN endurance INT) 
             BEGIN
 				UPDATE sac_a_dos 
                 SET objet_1 = objet_1, 
@@ -168,15 +170,11 @@ CREATE PROCEDURE enregistrer_donnees(IN id_sac INT, IN objet_1 INT, IN objet_2 I
                 WHERE aventure.id = id_aventure;
                 
                 UPDATE fiche_personnage
-                SET endurance = endurance, 
-					vie = vie 
+                SET endurance = endurance
                     WHERE fiche_personnage.id = id_personnage; 
                 
-            END $$
+            END $$fiche_personnage
 DELIMITER ;
 
-
-
-CALL afficher_chapitre(1);
 
 

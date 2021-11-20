@@ -4,14 +4,14 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import mysql.connector
 
-
+#connecteur a la db
 mydb = mysql.connector.connect(
     host="localhost",
     user="hero",    
     password="hero",
     database="ldvelh")
 
-
+#Gestion de la page du livre
 class Livre(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -44,14 +44,14 @@ class Livre(QMainWindow):
 
         self.buttondeco = QPushButton("Déconnection")
         self.buttondeco.setFixedSize(QSize(700,75))
-        self.buttondeco.clicked.connect(self.Clicked)
+        self.buttondeco.clicked.connect(self.Deconnection)
         self.buttondeco.setCheckable(True)
 
         self.buttondee = QPushButton("Lancer le dée")
         self.buttondee.clicked.connect(self.Randomdee)
         self.buttondee.setCheckable(True)
 
-        self.buttonpage = QPushButton("Calculer le nombre de page")
+        self.buttonpage = QPushButton("Ajouter le nombre de page lue :)")
         self.buttonpage.clicked.connect(self.Nbpage)
         self.buttonpage.setCheckable(True)
 
@@ -152,11 +152,13 @@ class Livre(QMainWindow):
         container = QWidget()
         container.setLayout(layoutHori)
         self.setCentralWidget(container)
-        
+
+    #permet de changer la page afficher dans le livre    
     def Changerchapitre(self,checked):
         chapitre = self.recherche.text()
         argument = chapitre
         cursor = mydb.cursor()
+        #on appel la procédure qui affiche les pages
         cursor.callproc('afficher_chapitre',[argument,])
          # print out the result
         print(argument)
@@ -164,24 +166,63 @@ class Livre(QMainWindow):
             self.text.setText(str(result.fetchone()[0]))
       
     
-    def Clicked(self, checked):
+    def Deconnection(self, checked):
+        #on met la session a 1, normalement on va chercher le # de user avec le label du début, mais on avait des overflow avec des fonctions qui s'appelaient entre eux
+        # session = session = self.nomuser.text()
+        session = 1
+        sql = "SELECT sac_a_dos_id FROM fiche_personnage WHERE session_id = %s"
+        mycursor = mydb.cursor()
+        mycursor.execute(sql,(session,))
+
+        sql_aventure = "SELECT aventure_id FROM fiche_personnage WHERE session_id = %s"
+        mycursor.execute(sql_aventure,(session,))
+        id_aventure = (str(mycursor.fetchone()[0]))
+
+        sql_personnage = "SELECT fiche_personnage.id FROM fiche_personnage WHERE session_id = %s"
+        mycursor.execute(sql_personnage,(session,))
+        id_personnage = (str(mycursor.fetchone()[0]))
+        #ici on déclare toute les variables avec les labels de l'application pour utiliser la procédures stockée
+        id_sac =  str(mycursor.fetchone()[0])
+        objet1 = self.objet1.text()
+        objet2 = self.objet2.text()
+        objet3 = self.objet3.text()
+        objet4 = self.objet4.text()
+        objet5 = self.objet5.text()
+        objet6 = self.objet6.text()
+        objet7 = self.objet7.text()
+        objet8 = self.objet8.text()
+        repas = self.repas.text()
+        argent = self.argent.text()
+        discipline1 = self.discipline1.text()
+        discipline2 = self.discipline2.text()
+        discipline3 = self.discipline3.text()
+        discipline4 = self.discipline4.text()
+        discipline5 = self.discipline5.text()
+        endurance = self.endurance.text()
+        arme = self.arme1.texT()
+
+        cursor = mydb.cursor(bufferred=True)
+        cursor = mydb.cursor()
+        #procédure stockée qui permet de stocker tous les nouveaux enregistrements à ajouter à la DB
+        cursor.callproc('enregistrer_donnees',[id_sac,],[objet1,],[objet2,],[objet3,],[objet4,],[objet5,],[objet6,],[objet7,],[objet8,],[repas,],[argent,],[id_aventure,],[discipline1,],[discipline2,],[discipline3,],[discipline4,],[discipline5,],[arme,],[id_personnage,],[endurance,])       
         self.close()
     
+    #permet de lancer un dée aléatoire
     def Randomdee(self, checked):
         mycursor = mydb.cursor()
         funcdee = "SELECT dee()"
         mycursor.execute(funcdee)
         result = str(mycursor.fetchone()[0])
         self.dee.setText(result)
-        
+    #permet d'afficher le nombre de page lue du user, encore une fois normalement on choisit le user en fonction de celui qui est connecté, mais problème d'overflow
     def Nbpage(self, checked):
         mycursor = mydb.cursor()
-        funcdee = "SELECT dee()"
-        mycursor.execute(funcdee)
+        funcpage = "SELECT page_lue(1)"
+        mycursor.execute(funcpage)
         result = str(mycursor.fetchone()[0])
-        self.dee.setText(result)
+        self.nbpage.setText(result)
 
-
+#window pour connecter le user
 class ConnectionUser(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -195,17 +236,12 @@ class ConnectionUser(QMainWindow):
         self.buttonuser = QPushButton("Sélectionner la session")
         self.buttonuser.clicked.connect(self.Selectionner)
         self.buttonuser.setCheckable(True)
-        self.buttoncreeuser = QPushButton("Créer la session")
-        self.buttoncreeuser.clicked.connect(self.Creer)
-        self.buttoncreeuser.setCheckable(True)
+
 
         layout = QVBoxLayout()
         layout.addWidget(self.labeluser)
         layout.addWidget(self.nomuser)
         layout.addWidget(self.buttonuser)
-        layout.addWidget(self.labelcreeuser)
-        layout.addWidget(self.nouveauuser)
-        layout.addWidget(self.buttoncreeuser)
 
         container = QWidget()
         container.setLayout(layout)
@@ -213,7 +249,7 @@ class ConnectionUser(QMainWindow):
 
 
 
-            
+    #permet d'afficher les valeurs de la database aussitot qu'on entre le user et qu'on clique sur connecter        
     def Selectionner(self, checked):
         session = self.nomuser.text()
         sql = "SELECT sac_a_dos_id FROM fiche_personnage WHERE session_id = %s"
@@ -345,7 +381,7 @@ class ConnectionUser(QMainWindow):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.connection = ConnectionUser()
+
         self.setWindowTitle("Login")
         self.setFixedSize(QSize(400, 200))
         button = QPushButton("Connection")

@@ -104,7 +104,8 @@ CREATE FUNCTION page_lue(id_hero INT) RETURNS INT DETERMINISTIC
 BEGIN 
 	DECLARE page INT;  
 	DECLARE select_page INT;
-    SET page = 1; 
+    
+	UPDATE hero SET hero.page_lue = hero.page_lue + 1; 
     SET select_page = (SELECT page_lue FROM hero WHERE hero.id = id_hero);
 	SET page = select_page;
 	RETURN page;
@@ -144,7 +145,7 @@ DROP PROCEDURE IF EXISTS enregistrer_donnees$$
 CREATE PROCEDURE enregistrer_donnees(IN id_sac INT, IN objet_1 INT, IN objet_2 INT, IN objet_3 INT, IN objet_4 INT,
 			IN objet_5 INT,IN objet_6 INT,IN objet_7 INT,IN objet_8 INT, IN repas VARCHAR(255), IN argent INT, IN id_aventure INT,
             IN discipline_1 INT, IN discipline_2 INT, IN discipline_3 INT, IN discipline_4 INT, IN discipline_5 INT,
-            IN arme INT,IN id_personnage INT, IN endurance INT, IN vie INT) 
+            IN arme INT,IN id_personnage INT, IN endurance INT) 
             BEGIN
 				UPDATE sac_a_dos 
                 SET objet_1 = objet_1, 
@@ -169,11 +170,11 @@ CREATE PROCEDURE enregistrer_donnees(IN id_sac INT, IN objet_1 INT, IN objet_2 I
                 WHERE aventure.id = id_aventure;
                 
                 UPDATE fiche_personnage
-                SET endurance = endurance, 
-					vie = vie 
+                SET endurance = endurance
                     WHERE fiche_personnage.id = id_personnage; 
                 
             END $$fiche_personnage
 DELIMITER ;
+
 
 

@@ -101,24 +101,16 @@ END $$
 DELIMITER ; 
 
 DELIMITER $$
-CREATE FUNCTION enlever_vie (montant INT, id_personnage INT) RETURNS VARCHAR(255) READS SQL DATA DETERMINISTIC
-BEGIN
-
-SELECT fiche_personnage.vie = fiche_personnage.vie - montant WHERE id = fiche_personnage.id;
-RETURN 1; 
-END $$
-DELIMITER ;
-
-DELIMITER $$
-CREATE FUNCTION ajouter_vie (montant INT, id_personnage INT) RETURNS VARCHAR(255) READS SQL DATA DETERMINISTIC
-BEGIN
-SELECT fiche_personnage.vie = fiche_personnage.vie - montant WHERE id = fiche_personnage.id;
-RETURN 1;
-END $$
-DELIMITER ;
-
-DELIMITER $$ 
-
+CREATE FUNCTION page_lue(id_hero INT) RETURNS INT DETERMINISTIC
+BEGIN 
+	DECLARE page INT;  
+	DECLARE select_page INT;
+    SET page = 1; 
+    SET select_page = (SELECT page_lue FROM hero WHERE hero.id = id_hero);
+	SET page = select_page;
+	RETURN page;
+END$$
+DELIMITER ; 
 DELIMITER $$ 
 CREATE TRIGGER gestion_point_vie AFTER UPDATE ON hero FOR EACH ROW
 

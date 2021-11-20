@@ -320,14 +320,10 @@ class ConnectionUser(QMainWindow):
         print(endurance)
         self.livre.endurance.setText(endurance)
 
-<<<<<<< HEAD
         sqlbouffe = "SELECT repas FROM sac_a_dos WHERE id = %s"
         mycursor.execute(sqlbouffe,(id_sac,))
         bouffe = str(cursor.fetchone()[0])
         self.livre.repas.setText(bouffe)
-=======
-       
->>>>>>> 2a38a77092669f7e027ef6a07ea032a64d68bd85
 
     def Creer(self, checked):
         if self.isVisible():

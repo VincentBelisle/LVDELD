@@ -36,8 +36,8 @@ class Livre(QMainWindow):
         self.textargent = QLabel("Argent: ")
         self.argent = QLineEdit()
 
-        self.textvie = QLabel("Vie: " + "caca")
-        self.vie = QLineEdit()
+        self.textvie = QLabel("Vie: ")
+        self.vie = QLineEdit("1")
 
         self.buttondeco = QPushButton("Déconnection")
         self.buttondeco.setFixedSize(QSize(700,75))

@@ -176,21 +176,3 @@ CREATE PROCEDURE enregistrer_donnees(IN id_sac INT, IN objet_1 INT, IN objet_2 I
 DELIMITER ;
 
 
-
-CALL afficher_chapitre(0);
-
-SELECT chapitre_id FROM session WHERE id = 4; 
-SELECT * FROM hero; 
-SELECT * FROM chapitre; 
-SELECT * FROM session; 
-SELECT * FROM fiche_personnage;
-INSERT INTO session (hero_id, chapitre_id, nom) VALUES (1,2,'test'); 
-INSERT INTO sac_a_dos (objet_1) VALUES ('test1'); 
-INSERT INTO aventure (id) VALUES (1); 
-INSERT INTO  fiche_personnage (id, session_id, vie, endurance, sac_a_dos_id, aventure_id) VALUES (1, 4,10, 30, 1,1);
-
-UPDATE session
-SET chapitre_id = 1
-WHERE id = 4; 
-SELECT * FROM chapitre WHERE id = 141;
-

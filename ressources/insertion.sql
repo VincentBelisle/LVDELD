@@ -353,6 +353,8 @@ INSERT INTO chapitre(livre_id,numero_chapitre, texte) VALUES (1,'350', 'Vous ent
 
 
 INSERT INTO session (hero_id,session.chapitre_id,nom) VALUES (1,1,"session_1");
-INSERT INTO sac_a_dos (objet_1) VALUES ('test1'); 
-INSERT INTO aventure (id) VALUES (1); 
+INSERT INTO sac_a_dos (objet_1,objet_2,objet_3,objet_4,objet_5,objet_6,objet_7,objet_8,repas,argent) VALUES ("Cable ethernet","Souris brisé","Baton","Glizzy","Masque","Gfuel","Terre","Crayon","Lave",15); 
+INSERT INTO aventure (discipline_1,discipline_2,discipline_3,discipline_4,discipline_5,arme) VALUES ("Bangala","Bozzo","GlizzyGobbler","GawkGawk","ChristianApaise.inc","Cable hdmi"); 
 INSERT INTO  fiche_personnage (id, session_id, vie, endurance, sac_a_dos_id, aventure_id) VALUES (1, 1,10, 30, 1,1);
+
+

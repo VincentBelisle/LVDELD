@@ -34,7 +34,7 @@ class Livre(QMainWindow):
         self.repas = QTextEdit()
 
         self.textargent = QLabel("Argent: ")
-        self.argent = QLineEdit()
+        self.argent = QLineEdit("")
 
         self.textvie = QLabel("Vie: ")
         self.vie = QLineEdit("1")
@@ -51,14 +51,6 @@ class Livre(QMainWindow):
         self.buttonmoinvie = QPushButton("-")
         self.buttonmoinvie.clicked.connect(self.Enlevervie)
         self.buttonmoinvie.setCheckable(True)
-
-        self.buttonplusarg = QPushButton("+")
-        self.buttonplusarg.clicked.connect(self.Ajouterargent)
-        self.buttonplusarg.setCheckable(True)
-
-        self.buttonmoinarg = QPushButton("-")
-        self.buttonmoinarg.clicked.connect(self.Enleverargent)
-        self.buttonmoinarg.setCheckable(True)
 
         self.textarme = QLabel("Arme: ")
         self.arme1 = QLineEdit()
@@ -147,9 +139,6 @@ class Livre(QMainWindow):
 
         layoutdroitgauche.addWidget(self.tab)
 
-        layoutdroitgauche.addWidget(self.buttonplusarg)
-        layoutdroitgauche.addWidget(self.buttonmoinarg)
-
         layoutdroitgauche.addWidget(self.tab)
 
         layoutHori.addLayout(layoutgauche)
@@ -183,11 +172,6 @@ class Livre(QMainWindow):
     def Enlevervie(self, checked):
         self.vie.setText("0")
 
-    def Ajouterargent(self, checked):
-        self.vie.setText("1")
-
-    def Enleverargent(self, checked):
-        self.vie.setText("0")
 
 class ConnectionUser(QMainWindow):
     def __init__(self):
@@ -276,6 +260,11 @@ class ConnectionUser(QMainWindow):
         objet8_text = str(mycursor.fetchone()[0])
         self.livre.objet8.setText(objet8_text)
 
+        sqlargent = "SELECT argent FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sqlargent,(id_sac,))
+        argent_text = str(mycursor.fetchone()[0])
+        self.livre.argent.setText(argent_text)
+
         sql_chapitre_id = "SELECT chapitre_id FROM session WHERE id = %s"
         mycursor.execute(sql_chapitre_id,(session,))
         id_chapitre = str(mycursor.fetchone()[0])
@@ -331,10 +320,14 @@ class ConnectionUser(QMainWindow):
         print(endurance)
         self.livre.endurance.setText(endurance)
 
+<<<<<<< HEAD
         sqlbouffe = "SELECT repas FROM sac_a_dos WHERE id = %s"
         mycursor.execute(sqlbouffe,(id_sac,))
         bouffe = str(cursor.fetchone()[0])
         self.livre.repas.setText(bouffe)
+=======
+       
+>>>>>>> 2a38a77092669f7e027ef6a07ea032a64d68bd85
 
     def Creer(self, checked):
         if self.isVisible():

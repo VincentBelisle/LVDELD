@@ -23,10 +23,42 @@ class Livre(QMainWindow):
         self.bouttonrecherche = QPushButton("Aller au chapitre")
         self.recherche = QLineEdit()
 
-        self.sac = QLineEdit()
+        self.tab = QLabel(" ")
+
+        self.textendurance = QLabel("Endurance: ")
+        self.endurance = QTextEdit()
+
+        self.textrepas = QLabel("Repas: ")
+        self.repas = QTextEdit()
+
+        self.textargent = QLabel("Argent: ")
+        self.argent = QLineEdit()
+
+        self.textvie = QLabel("Vie: ")
+        self.vie = QLineEdit()
+
+        self.buttondeco = QPushButton("Déconnection")
+        self.buttondeco.setFixedSize(QSize(700,75))
+        self.buttondeco.clicked.connect(self.Clicked)
+        self.buttondeco.setCheckable(True)
+
+        self.textarme = QLabel("Arme: ")
+        self.arme1 = QLineEdit()
+        self.arme2 = QLineEdit()
+
+        self.textdiscipline = QLabel("Disciplines Kai: ")
+        self.discipline1 = QLineEdit()
+        self.discipline2 = QLineEdit()
+        self.discipline3 = QLineEdit()
+        self.discipline4 = QLineEdit()
+        self.discipline5 = QLineEdit()
+
+        self.textobjet = QLabel("Objet: ")
+        self.objet = QTextEdit()
 
         layoutgauche = QVBoxLayout()
-        layoutdroit = QVBoxLayout()
+        layoutdroitgauche = QVBoxLayout()
+        layoutdroitdroit = QVBoxLayout()
         layoutHori = QHBoxLayout()
 
         layoutgauche.addWidget(self.text)
@@ -34,15 +66,60 @@ class Livre(QMainWindow):
         layoutgauche.addWidget(self.recherche)
         layoutgauche.addWidget(self.bouttonrecherche)
 
-        layoutdroit.addWidget(self.sac)
+        layoutdroitdroit.addWidget(self.textarme)
+        layoutdroitdroit.addWidget(self.arme1)
+        layoutdroitdroit.addWidget(self.arme2)
 
+        layoutdroitdroit.addWidget(self.tab)
+
+        layoutdroitdroit.addWidget(self.textobjet)
+        layoutdroitdroit.addWidget(self.objet)
+
+        layoutdroitdroit.addWidget(self.tab)
+
+        layoutdroitdroit.addWidget(self.textrepas)
+        layoutdroitdroit.addWidget(self.repas)
+
+        layoutdroitdroit.addWidget(self.tab)
+
+        layoutdroitdroit.addWidget(self.buttondeco)
+
+        layoutdroitdroit.addWidget(self.tab)
+
+        layoutdroitgauche.addWidget(self.textdiscipline)
+        layoutdroitgauche.addWidget(self.discipline1)
+        layoutdroitgauche.addWidget(self.discipline2)
+        layoutdroitgauche.addWidget(self.discipline3)
+        layoutdroitgauche.addWidget(self.discipline4)
+        layoutdroitgauche.addWidget(self.discipline5)
+
+        layoutdroitgauche.addWidget(self.tab)
+
+        layoutdroitgauche.addWidget(self.textendurance)
+        layoutdroitgauche.addWidget(self.endurance)
+
+        layoutdroitgauche.addWidget(self.tab)
+
+        layoutdroitgauche.addWidget(self.textvie)
+        layoutdroitgauche.addWidget(self.vie)
+
+        layoutdroitgauche.addWidget(self.tab)
+
+        layoutdroitgauche.addWidget(self.textargent)
+        layoutdroitgauche.addWidget(self.argent)
+
+        layoutdroitgauche.addWidget(self.tab)
 
         layoutHori.addLayout(layoutgauche)
-        layoutHori.addLayout(layoutdroit)
+        layoutHori.addLayout(layoutdroitgauche)
+        layoutHori.addLayout(layoutdroitdroit)
 
         container = QWidget()
         container.setLayout(layoutHori)
         self.setCentralWidget(container)
+    
+    def Clicked(self, checked):
+        self.close()
 
 
 class MainWindow(QMainWindow):

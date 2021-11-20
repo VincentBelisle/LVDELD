@@ -10,6 +10,8 @@ CREATE DATABASE LDVELH;
 USE LDVELH;
 
 # Création des tables de la bd.
+SET page_lue = 0; 
+
 
 CREATE TABLE `hero` (
   `id_hero` int PRIMARY KEY,
@@ -66,4 +68,26 @@ SET vie_personnage = (SELECT vie FROM hero WHERE id_hero = id_hero);
 
 RETURN vie_personnage = perte_vie; 
 END $$
+DELIMITER ;
+
+DELIMITER $$ 
+CREATE TRIGGER gestion_point_vie AFTER UPDATE ON hero FOR EACH ROW
+
+BEGIN
+	if vie <= 0 THEN
+		SET vivant = 0; 
+	END IF 
+END $
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER suivi_page_lue AFTER UPDATE ON session FOR EACH ROW
+BEGIN
+	IF !(NEW.chapitre_id <=> OLD.chapitre_id) THEN 
+		hero.page_lue = hero.page_lue +1; 
+	END IF
+END $
 DELIMITER ; 
+
+SELECT page_lue; 
+

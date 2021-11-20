@@ -228,6 +228,10 @@ class ConnectionUser(QMainWindow):
         mycursor.execute(sql,(session,))
         id_sac =  str(mycursor.fetchone()[0])
 
+        sql_aventure = "SELECT aventure_id FROM fiche_personnage WHERE session_id = %s"
+        mycursor.execute(sql_aventure,(session,))
+        id_aventure = (str(mycursor.fetchone()[0]))
+
         sql1 = "SELECT objet_1 FROM sac_a_dos WHERE id = %s"
         mycursor.execute(sql1,(id_sac,))
         objet1_text = str(mycursor.fetchone()[0])
@@ -285,6 +289,42 @@ class ConnectionUser(QMainWindow):
             self.hide()
             self.livre.show()
 
+        sqldiscipline_1 = "SELECT discipline_1 FROM aventure WHERE id = %s"
+        mycursor.execute(sqldiscipline_1,(id_aventure,))
+        discipline1_text = str(mycursor.fetchone()[0])
+        self.livre.discipline1.setText(discipline1_text)
+
+        sqldiscipline_2 = "SELECT discipline_2 FROM aventure WHERE id = %s"
+        mycursor.execute(sqldiscipline_2,(id_aventure,))
+        discipline2_text = str(mycursor.fetchone()[0])
+        self.livre.discipline2.setText(discipline2_text)
+
+        sqldiscipline_3 = "SELECT discipline_3 FROM aventure WHERE id = %s"
+        mycursor.execute(sqldiscipline_3,(id_aventure,))
+        discipline3_text = str(mycursor.fetchone()[0])
+        self.livre.discipline3.setText(discipline3_text)
+
+        sqldiscipline_4 = "SELECT discipline_4 FROM aventure WHERE id = %s"
+        mycursor.execute(sqldiscipline_4,(id_aventure,))
+        discipline4_text = str(mycursor.fetchone()[0])
+        self.livre.discipline4.setText(discipline4_text)
+
+        sqldiscipline_5 = "SELECT discipline_5 FROM aventure WHERE id = %s"
+        mycursor.execute(sqldiscipline_5,(id_aventure,))
+        discipline5_text = str(mycursor.fetchone()[0])
+        self.livre.discipline5.setText(discipline5_text)
+
+        sqlarme1 =  "SELECT arme FROM aventure WHERE id = %s"
+        mycursor.execute(sqlarme1,(id_aventure,))
+        arme_text = str(mycursor.fetchone()[0])
+        self.livre.arme1.setText(arme_text)
+
+
+        sqlendurance = "SELECT endurance FROM fiche_personnage WHERE id = %s"
+        mycursor.execute(sqlendurance,(id_aventure,))
+        endurance = str(mycursor.fetchone()[0])
+        print(endurance)
+        self.livre.endurance.setText(endurance)
 
 
     def Creer(self, checked):

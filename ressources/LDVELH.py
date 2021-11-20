@@ -317,6 +317,11 @@ class ConnectionUser(QMainWindow):
         arme_text = str(mycursor.fetchone()[0])
         self.livre.arme1.setText(arme_text)
 
+        sqlbouffe = "SELECT repas FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sqlbouffe,(id_sac,))
+        bouffe_texte = str(mycursor.fetchone()[0])
+        self.livre.repas.setText(bouffe_texte)
+
 
         sqlendurance = "SELECT endurance FROM fiche_personnage WHERE id = %s"
         mycursor.execute(sqlendurance,(id_aventure,))
@@ -324,9 +329,12 @@ class ConnectionUser(QMainWindow):
         print(endurance)
         self.livre.endurance.setText(endurance)
 
-        
 
-       
+        sqlbouffe = "SELECT repas FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sqlbouffe,(id_sac,))
+        bouffe = str(cursor.fetchone()[0])
+        self.livre.repas.setText(bouffe)
+
 
     def Creer(self, checked):
         if self.isVisible():

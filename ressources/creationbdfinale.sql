@@ -1,3 +1,4 @@
+
 /*
 * Fichier: creationdb.sql
 * Auteurs: Félix Michaud, Vincent Bélisle, Maxime Boucher
@@ -100,14 +101,23 @@ END $$
 DELIMITER ; 
 
 DELIMITER $$
-CREATE FUNCTION calcul_vie(perte_vie INT, id_hero INT) RETURNS INT READS SQL DATA DETERMINISTIC
+CREATE FUNCTION enlever_vie (montant INT, id_personnage INT) RETURNS VARCHAR(255) READS SQL DATA DETERMINISTIC
 BEGIN
-DECLARE vie_personnage INT; 
-SET vie_personnage = (SELECT vie FROM hero WHERE id_hero = id_hero);
 
-RETURN vie_personnage = perte_vie; 
+SELECT fiche_personnage.vie = fiche_personnage.vie - montant WHERE id = fiche_personnage.id;
+RETURN 1; 
 END $$
 DELIMITER ;
+
+DELIMITER $$
+CREATE FUNCTION ajouter_vie (montant INT, id_personnage INT) RETURNS VARCHAR(255) READS SQL DATA DETERMINISTIC
+BEGIN
+SELECT fiche_personnage.vie = fiche_personnage.vie - montant WHERE id = fiche_personnage.id;
+RETURN 1;
+END $$
+DELIMITER ;
+
+DELIMITER $$ 
 
 DELIMITER $$ 
 CREATE TRIGGER gestion_point_vie AFTER UPDATE ON hero FOR EACH ROW
@@ -176,3 +186,20 @@ CREATE PROCEDURE enregistrer_donnees(IN id_sac INT, IN objet_1 INT, IN objet_2 I
 DELIMITER ;
 
 
+CALL afficher_chapitre(0);
+
+SELECT chapitre_id FROM session WHERE id = 4; 
+SELECT * FROM hero; 
+SELECT * FROM chapitre; 
+SELECT * FROM session; 
+SELECT * FROM fiche_personnage;
+INSERT INTO session (hero_id, chapitre_id, nom) VALUES (1,2,'test'); 
+INSERT INTO sac_a_dos (objet_1) VALUES ('test1'); 
+INSERT INTO aventure (id) VALUES (1); 
+INSERT INTO  fiche_personnage (id, session_id, vie, endurance, sac_a_dos_id, aventure_id) VALUES (1, 4,10, 30, 1,1);
+
+UPDATE session
+SET chapitre_id = 1
+WHERE id = 4; 
+SELECT * FROM chapitre WHERE id = 141;
+SELECT endurance FROM fiche_personnage WHERE id = 1; 

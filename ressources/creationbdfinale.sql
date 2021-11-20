@@ -130,17 +130,51 @@ DELIMITER ;
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS afficher_chapitre$$
-CREATE PROCEDURE afficher_chapitre(IN _session_id INT)
+CREATE PROCEDURE afficher_chapitre(IN _numero_chapitre INT)
 BEGIN
 
-DECLARE _chapitre_id INT;
-
-SET _chapitre_id = (SELECT chapitre_id FROM session WHERE id = _session_id);
-
-SELECT texte FROM chapitre WHERE id =  _chapitre_id;
+SELECT texte FROM chapitre WHERE numero_chapitre = _numero_chapitre;
 
 END $$
 DELIMITER ;
+
+DELIMITER $$ 
+DROP PROCEDURE IF EXISTS enregistrer_donnees$$
+CREATE PROCEDURE enregistrer_donnees(IN id_sac INT, IN objet_1 INT, IN objet_2 INT, IN objet_3 INT, IN objet_4 INT,
+			IN objet_5 INT,IN objet_6 INT,IN objet_7 INT,IN objet_8 INT, IN repas VARCHAR(255), IN argent INT, IN id_aventure INT,
+            IN discipline_1 INT, IN discipline_2 INT, IN discipline_3 INT, IN discipline_4 INT, IN discipline_5 INT,
+            IN arme INT,IN id_personnage INT, IN endurance INT, IN vie INT) 
+            BEGIN
+				UPDATE sac_a_dos 
+                SET objet_1 = objet_1, 
+                objet_2 = objet_2, 
+                objet_3 = objet_3, 
+                objet_4 = objet_4, 
+                objet_5 = objet_5, 
+                objet_6 = objet_6, 
+                objet_7 = objet_7, 
+                objet_8 = objet_8,
+                repas = repas,
+                argent = repas
+                WHERE sac_a_dos.id = id_sac;
+                
+                UPDATE aventure
+                SET discipline_1 = discipline1,
+                discipline_2 = discipline2,
+                discipline_3 = discipline3,
+                discipline_4 = discipline4,
+				discipline_5 = discipline5,
+                arme = arme
+                WHERE aventure.id = id_aventure;
+                
+                UPDATE fiche_personnage
+                SET endurance = endurance, 
+					vie = vie 
+                    WHERE fiche_personnage.id = id_personnage; 
+                
+            END $$
+DELIMITER ;
+
 
 
 CALL afficher_chapitre(1);

@@ -329,11 +329,10 @@ class ConnectionUser(QMainWindow):
         print(endurance)
         self.livre.endurance.setText(endurance)
 
-
         sqlbouffe = "SELECT repas FROM sac_a_dos WHERE id = %s"
         mycursor.execute(sqlbouffe,(id_sac,))
-        bouffe = str(cursor.fetchone()[0])
-        self.livre.repas.setText(bouffe)
+        bouffe_texte = str(mycursor.fetchone()[0])
+        self.livre.repas.setText(bouffe_texte)
 
 
     def Creer(self, checked):

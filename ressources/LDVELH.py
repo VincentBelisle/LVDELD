@@ -21,6 +21,8 @@ class Livre(QMainWindow):
 
         self.division = QLabel("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
         self.bouttonrecherche = QPushButton("Aller au chapitre")
+        self.bouttonrecherche.clicked.connect(self.Changerchapitre)
+        self.bouttonrecherche.setCheckable(True)
         self.recherche = QLineEdit()
 
         self.tab = QLabel(" ")
@@ -34,7 +36,7 @@ class Livre(QMainWindow):
         self.textargent = QLabel("Argent: ")
         self.argent = QLineEdit()
 
-        self.textvie = QLabel("Vie: ")
+        self.textvie = QLabel("Vie: " + "caca")
         self.vie = QLineEdit()
 
         self.buttondeco = QPushButton("Déconnection")
@@ -157,6 +159,20 @@ class Livre(QMainWindow):
         container = QWidget()
         container.setLayout(layoutHori)
         self.setCentralWidget(container)
+        
+    def Changerchapitre(self,checked):
+        chapitre = self.recherche.text()
+        argument = chapitre
+        cursor = mydb.cursor()
+        cursor.callproc('afficher_chapitre',[argument,])
+         # print out the result
+        print(argument)
+        for result in cursor.stored_results():
+            self.text.setText(str(result.fetchone()[0]))
+        """
+        
+        """
+
     
     def Clicked(self, checked):
         self.close()
@@ -202,10 +218,74 @@ class ConnectionUser(QMainWindow):
         container.setLayout(layout)
         self.setCentralWidget(container)
 
+
+
+            
     def Selectionner(self, checked):
+        session = self.nomuser.text()
+        sql = "SELECT sac_a_dos_id FROM fiche_personnage WHERE session_id = %s"
+        mycursor = mydb.cursor()
+        mycursor.execute(sql,(session,))
+        id_sac =  str(mycursor.fetchone()[0])
+
+        sql1 = "SELECT objet_1 FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sql1,(id_sac,))
+        objet1_text = str(mycursor.fetchone()[0])
+        self.livre.objet1.setText(objet1_text)
+        
+        sql2 = "SELECT objet_2 FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sql2,(id_sac,))
+        objet2_text = str(mycursor.fetchone()[0])
+        self.livre.objet2.setText(objet2_text)
+ 
+    
+        sql3 = "SELECT objet_3 FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sql3,(id_sac,))
+        objet3_text = str(mycursor.fetchone()[0])
+        self.livre.objet3.setText(objet3_text)
+
+        sql4 = "SELECT objet_4 FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sql4,(id_sac,))
+        objet4_text = str(mycursor.fetchone()[0])
+        self.livre.objet4.setText(objet4_text)
+
+
+        sql5 = "SELECT objet_5 FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sql5,(id_sac,))
+        objet5_text = str(mycursor.fetchone()[0])
+        self.livre.objet5.setText(objet5_text)
+
+        sql6 = "SELECT objet_6 FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sql6,(id_sac,))
+        objet6_text = str(mycursor.fetchone()[0])
+        self.livre.objet6.setText(objet6_text)
+
+
+        sql7 = "SELECT objet_7 FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sql7,(id_sac,))
+        objet7_text = str(mycursor.fetchone()[0])
+        self.livre.objet7.setText(objet7_text)
+
+
+        sql8 = "SELECT objet_8 FROM sac_a_dos WHERE id = %s"
+        mycursor.execute(sql8,(id_sac,))
+        objet8_text = str(mycursor.fetchone()[0])
+        self.livre.objet8.setText(objet8_text)
+
+        sql_chapitre_id = "SELECT chapitre_id FROM session WHERE id = %s"
+        mycursor.execute(sql_chapitre_id,(session,))
+        id_chapitre = str(mycursor.fetchone()[0])
+        argument = id_chapitre
+        cursor = mydb.cursor()
+        cursor.callproc('afficher_chapitre',[argument,])
+         # print out the result
+        for result in cursor.stored_results():
+             self.livre.text.setText(str(result.fetchone()[0]))
         if self.isVisible():
             self.hide()
-            self.connection.show()
+            self.livre.show()
+
+
 
     def Creer(self, checked):
         if self.isVisible():
@@ -253,10 +333,24 @@ class MainWindow(QMainWindow):
             self.login.setText("")
             self.password.setText("")
 
+    def ConnectionUser(self, checked):
+            print("")
 
+    def aller_page(self,checked):
+        print("")
+        
+    def call_find_all_sp(self,checked):
+            argument = self.text
+            db_config = mydb
+            cursor = mydb.cursor()
+            args = [argument]
+            cursor.callproc('afficher_chapitre')
 
+            # print out the result
+            for result in cursor.stored_results():
+                print(result.fetchall())
 
 app = QApplication(sys.argv)
-window = MainWindow()
-window.show()
-app.exec()
+mainWin = ConnectionUser()
+mainWin.show()
+sys.exit( app.exec_() )

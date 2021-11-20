@@ -173,11 +173,51 @@ class Livre(QMainWindow):
     def Enleverargent(self, checked):
         self.vie.setText("0")
 
+class ConnectionUser(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.livre = Livre()
+        self.setWindowTitle("Login")
+        self.setFixedSize(QSize(600, 400))
+        self.labeluser = QLabel('Nom user :')
+        self.nomuser = QLineEdit()
+        self.labelcreeuser = QLabel('Nouveau user :')
+        self.nouveauuser = QLineEdit()
+        self.buttonuser = QPushButton("Sélectionner la session")
+        self.buttonuser.clicked.connect(self.Selectionner)
+        self.buttonuser.setCheckable(True)
+        self.buttoncreeuser = QPushButton("Créer la session")
+        self.buttoncreeuser.clicked.connect(self.Creer)
+        self.buttoncreeuser.setCheckable(True)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.labeluser)
+        layout.addWidget(self.nomuser)
+        layout.addWidget(self.buttonuser)
+        layout.addWidget(self.labelcreeuser)
+        layout.addWidget(self.nouveauuser)
+        layout.addWidget(self.buttoncreeuser)
+
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
+
+    def Selectionner(self, checked):
+        if self.isVisible():
+            self.hide()
+            self.connection.show()
+
+    def Creer(self, checked):
+        if self.isVisible():
+            self.hide()
+            self.connection.show()
+
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.Livre = Livre()
+        self.connection = ConnectionUser()
         self.setWindowTitle("Login")
         self.setFixedSize(QSize(400, 200))
         button = QPushButton("Connection")
@@ -208,7 +248,7 @@ class MainWindow(QMainWindow):
         if self.login.text() == "hero" and self.password.text() == "hero":
             if self.isVisible():
                 self.hide()
-                self.Livre.show()
+                self.connection.show()
         else:
             self.login.setText("")
             self.password.setText("")
@@ -217,6 +257,6 @@ class MainWindow(QMainWindow):
 
 
 app = QApplication(sys.argv)
-window = Livre()
+window = MainWindow()
 window.show()
 app.exec()

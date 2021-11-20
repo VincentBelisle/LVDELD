@@ -42,6 +42,22 @@ class Livre(QMainWindow):
         self.buttondeco.clicked.connect(self.Clicked)
         self.buttondeco.setCheckable(True)
 
+        self.buttonplusvie = QPushButton("+")
+        self.buttonplusvie.clicked.connect(self.Ajoutervie)
+        self.buttonplusvie.setCheckable(True)
+
+        self.buttonmoinvie = QPushButton("-")
+        self.buttonmoinvie.clicked.connect(self.Enlevervie)
+        self.buttonmoinvie.setCheckable(True)
+
+        self.buttonplusarg = QPushButton("+")
+        self.buttonplusarg.clicked.connect(self.Ajouterargent)
+        self.buttonplusarg.setCheckable(True)
+
+        self.buttonmoinarg = QPushButton("-")
+        self.buttonmoinarg.clicked.connect(self.Enleverargent)
+        self.buttonmoinarg.setCheckable(True)
+
         self.textarme = QLabel("Arme: ")
         self.arme1 = QLineEdit()
         self.arme2 = QLineEdit()
@@ -54,7 +70,14 @@ class Livre(QMainWindow):
         self.discipline5 = QLineEdit()
 
         self.textobjet = QLabel("Objet: ")
-        self.objet = QTextEdit()
+        self.objet1 = QTextEdit()
+        self.objet2 = QTextEdit()
+        self.objet3 = QTextEdit()
+        self.objet4 = QTextEdit()
+        self.objet5 = QTextEdit()
+        self.objet6 = QTextEdit()
+        self.objet7 = QTextEdit()
+        self.objet8 = QTextEdit()
 
         layoutgauche = QVBoxLayout()
         layoutdroitgauche = QVBoxLayout()
@@ -73,7 +96,14 @@ class Livre(QMainWindow):
         layoutdroitdroit.addWidget(self.tab)
 
         layoutdroitdroit.addWidget(self.textobjet)
-        layoutdroitdroit.addWidget(self.objet)
+        layoutdroitdroit.addWidget(self.objet1)
+        layoutdroitdroit.addWidget(self.objet2)
+        layoutdroitdroit.addWidget(self.objet3)
+        layoutdroitdroit.addWidget(self.objet4)
+        layoutdroitdroit.addWidget(self.objet5)
+        layoutdroitdroit.addWidget(self.objet6)
+        layoutdroitdroit.addWidget(self.objet7)
+        layoutdroitdroit.addWidget(self.objet8)
 
         layoutdroitdroit.addWidget(self.tab)
 
@@ -105,8 +135,18 @@ class Livre(QMainWindow):
 
         layoutdroitgauche.addWidget(self.tab)
 
+        layoutdroitgauche.addWidget(self.buttonplusvie)
+        layoutdroitgauche.addWidget(self.buttonmoinvie)
+
+        layoutdroitgauche.addWidget(self.tab)
+
         layoutdroitgauche.addWidget(self.textargent)
         layoutdroitgauche.addWidget(self.argent)
+
+        layoutdroitgauche.addWidget(self.tab)
+
+        layoutdroitgauche.addWidget(self.buttonplusarg)
+        layoutdroitgauche.addWidget(self.buttonmoinarg)
 
         layoutdroitgauche.addWidget(self.tab)
 
@@ -120,6 +160,18 @@ class Livre(QMainWindow):
     
     def Clicked(self, checked):
         self.close()
+    
+    def Ajoutervie(self, checked):
+        self.vie.setText("1")
+
+    def Enlevervie(self, checked):
+        self.vie.setText("0")
+
+    def Ajouterargent(self, checked):
+        self.vie.setText("1")
+
+    def Enleverargent(self, checked):
+        self.vie.setText("0")
 
 
 class MainWindow(QMainWindow):
@@ -165,6 +217,6 @@ class MainWindow(QMainWindow):
 
 
 app = QApplication(sys.argv)
-window = MainWindow()
+window = Livre()
 window.show()
 app.exec()

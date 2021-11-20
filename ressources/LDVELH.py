@@ -369,11 +369,6 @@ class ConnectionUser(QMainWindow):
         self.livre.repas.setText(bouffe_texte)
 
 
-    def Creer(self, checked):
-        if self.isVisible():
-            self.hide()
-            self.connection.show()
-
 
 app = QApplication(sys.argv)
 mainWin = ConnectionUser()

@@ -36,21 +36,26 @@ class Livre(QMainWindow):
         self.textargent = QLabel("Argent: ")
         self.argent = QLineEdit("")
 
-        self.textvie = QLabel("Vie: ")
-        self.vie = QLineEdit("1")
+        self.textnbpage = QLabel("Nombre de page lue: ")
+        self.nbpage = QLineEdit("")
+
+        self.textdee = QLabel("Dée: ")
+        self.dee = QLineEdit("6")
 
         self.buttondeco = QPushButton("Déconnection")
         self.buttondeco.setFixedSize(QSize(700,75))
         self.buttondeco.clicked.connect(self.Clicked)
         self.buttondeco.setCheckable(True)
 
-        self.buttonplusvie = QPushButton("+")
-        self.buttonplusvie.clicked.connect(self.Ajoutervie)
-        self.buttonplusvie.setCheckable(True)
+        self.buttondee = QPushButton("Lancer le dée")
+        self.buttondee.clicked.connect(self.Randomdee)
+        self.buttondee.setCheckable(True)
 
-        self.buttonmoinvie = QPushButton("-")
-        self.buttonmoinvie.clicked.connect(self.Enlevervie)
-        self.buttonmoinvie.setCheckable(True)
+        self.buttonpage = QPushButton("Calculer le nombre de page")
+        self.buttonpage.clicked.connect(self.Nbpage)
+        self.buttonpage.setCheckable(True)
+
+       
 
         self.textarme = QLabel("Arme: ")
         self.arme1 = QLineEdit()
@@ -85,7 +90,6 @@ class Livre(QMainWindow):
 
         layoutdroitdroit.addWidget(self.textarme)
         layoutdroitdroit.addWidget(self.arme1)
-        layoutdroitdroit.addWidget(self.arme2)
 
         layoutdroitdroit.addWidget(self.tab)
 
@@ -124,13 +128,9 @@ class Livre(QMainWindow):
 
         layoutdroitgauche.addWidget(self.tab)
 
-        layoutdroitgauche.addWidget(self.textvie)
-        layoutdroitgauche.addWidget(self.vie)
-
-        layoutdroitgauche.addWidget(self.tab)
-
-        layoutdroitgauche.addWidget(self.buttonplusvie)
-        layoutdroitgauche.addWidget(self.buttonmoinvie)
+        layoutdroitgauche.addWidget(self.textdee)
+        layoutdroitgauche.addWidget(self.dee)
+        layoutdroitgauche.addWidget(self.buttondee)
 
         layoutdroitgauche.addWidget(self.tab)
 
@@ -138,6 +138,10 @@ class Livre(QMainWindow):
         layoutdroitgauche.addWidget(self.argent)
 
         layoutdroitgauche.addWidget(self.tab)
+
+        layoutdroitgauche.addWidget(self.textnbpage)
+        layoutdroitgauche.addWidget(self.nbpage)
+        layoutdroitgauche.addWidget(self.buttonpage)
 
         layoutdroitgauche.addWidget(self.tab)
 
@@ -158,19 +162,24 @@ class Livre(QMainWindow):
         print(argument)
         for result in cursor.stored_results():
             self.text.setText(str(result.fetchone()[0]))
-        """
-        
-        """
-
+      
     
     def Clicked(self, checked):
         self.close()
     
-    def Ajoutervie(self, checked):
-        self.vie.setText("1")
-
-    def Enlevervie(self, checked):
-        self.vie.setText("0")
+    def Randomdee(self, checked):
+        mycursor = mydb.cursor()
+        funcdee = "SELECT dee()"
+        mycursor.execute(funcdee)
+        result = str(mycursor.fetchone()[0])
+        self.dee.setText(result)
+        
+    def Nbpage(self, checked):
+        mycursor = mydb.cursor()
+        funcdee = "SELECT dee()"
+        mycursor.execute(funcdee)
+        result = str(mycursor.fetchone()[0])
+        self.dee.setText(result)
 
 
 class ConnectionUser(QMainWindow):
@@ -314,6 +323,8 @@ class ConnectionUser(QMainWindow):
         endurance = str(mycursor.fetchone()[0])
         print(endurance)
         self.livre.endurance.setText(endurance)
+
+        
 
        
 
